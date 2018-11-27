@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
@@ -11,7 +10,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+$backage_ground_color: #1c2128;
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,5 +21,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+body, html {
+  background-color: $backage_ground_color;
+  text-align: center
 }
 </style>

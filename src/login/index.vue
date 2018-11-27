@@ -1,42 +1,54 @@
-// 登陆相关
 <template lang="pug">
-  .vm-login
-    .login-content
-      router-link.btn-login(to="/login/phone") 手机号登陆
-      router-link.btn-login(to="/login/email") 邮箱登陆
-    router-view
+  el-container
+    .login
+      el-row(class="login-label-row")
+        span(class="login-label") Login in
+      el-row
+        el-input(class="userName", v-model="userName", placeholder="Please Input User Name", clearable)
+      el-row
+        el-input(class="password", v-model="password", placeholder="Please Input Password", type="password", clearable)
+      el-row
+        el-button(type="primary", size="medium") Login in
 </template>
 <script>
 export default {
-}
-</script>
-<style lang="scss" scoped>
-.vm-login{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .login-content{
-    width: 80%;
-    height: auto;
-    .btn-login{
-      display: block;
-      line-height: p2r(0.7rem);
-      border: 1px solid black;
-      color: red;
-      font-size: 14px;
-      border-radius: p2r(0.35rem);
-      margin: p2r(0.3rem) 0;
+  data () {
+    return {
+      userName: '',
+      password: ''
     }
   }
-  .login-ruoter{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-  }
+}
+</script>
+<style lang="scss">
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+$backage_ground_color: #20262e;
+$input_width: 100%;
+
+.login {
+  width: 25%;
+  margin: auto;
+}
+
+.login .login-label-row {
+  float: left;
+  margin-bottom: 10px;
+}
+
+.userName, .password, .login-label {
+  width: $input_width;
+  margin-bottom: 5px;
+}
+
+.login .el-input__inner {
+  background-color: $backage_ground_color;
+  color: #fff;
+}
+
+.login-label {
+  color: #fff;
+  font-size: 20px;
 }
 </style>
