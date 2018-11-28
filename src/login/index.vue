@@ -51,4 +51,9 @@ $input_width: 100%;
   color: #fff;
   font-size: 20px;
 }
+
+.login .el-button {
+  margin-top: 5px;
+  float: right;
+}
 </style>
