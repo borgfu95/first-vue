@@ -1,10 +1,10 @@
 <template lang="pug">
   div
-    el-table(class="header", :data="tableData", border, :row-style="tableRowStyle", :header-cell-style="tableHeaderColor", row-class-name="table-row")
+    el-table(class="header", :data="tableData", border, :row-style="tableRowStyle", :header-cell-style="tableHeaderColor")
       el-table-column(prop="engineer", label="Engineer", width="80")
       el-table-column(prop="workOn", label="Feature Worked On", width="150")
-      el-table-column(prop="workItem", label="Work Item", width="500")
-      el-table-column(prop="nextWorkItem", label="Plan of Next Work Day", width="500")
+      el-table-column(prop="workItem", label="Work Item")
+      el-table-column(prop="nextWorkItem", label="Plan of Next Work Day")
 </template>
 <script>
 export default {

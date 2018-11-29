@@ -1,6 +1,6 @@
 <template lang="pug">
   el-container
-    el-main
+    el-main.main-table
       Table
     el-footer
       el-container
@@ -35,5 +35,9 @@ export default {
 <style lang="scss" scoped>
 .footer-form {
   float: left;
+}
+
+.main-table {
+  height: 500px;
 }
 </style>
