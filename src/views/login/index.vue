@@ -8,14 +8,21 @@
       el-row
         el-input(class="password", v-model="password", placeholder="Please Input Password", type="password", clearable)
       el-row
-        el-button(type="primary", size="medium") Login in
+        el-button(type="primary", size="medium", @click="login") Login in
 </template>
 <script>
+import router from '@/router'
+
 export default {
   data () {
     return {
       userName: '',
       password: ''
+    }
+  },
+  methods: {
+    login () {
+      router.push('/main')
     }
   }
 }
@@ -30,6 +37,7 @@ $input_width: 100%;
 .login {
   width: 25%;
   margin: auto;
+  margin-top: 15%;
 }
 
 .login .login-label-row {
@@ -53,7 +61,7 @@ $input_width: 100%;
 }
 
 .login .el-button {
-  margin-top: 5px;
+  margin-top: 10px;
   float: right;
 }
 </style>
