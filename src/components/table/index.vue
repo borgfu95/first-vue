@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     tableRowStyle ({ row, rowIndex }) {
-      return 'background-color: #1c2128;color: #fff;font-size: 12px;409eff'
+      return 'background-color: #1c2128;color: #fff;font-size: 12px;'
     },
     tableHeaderColor ({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {

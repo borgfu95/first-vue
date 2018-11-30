@@ -23,7 +23,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container .form .el-form-item .textarea /deep/ textarea {
-  width: 350px;
+  width: 300px;
   height: 80px;
 }
 </style>
