@@ -7,36 +7,16 @@
       el-table-column(prop="nextWorkItem", label="Plan of Next Work Day")
 </template>
 <script>
+import Req from '@/utils/axios'
+
 export default {
   data () {
     return {
-      tableData: [
-        {
-          engineer: 'Borg Fu',
-          workOn: 'CloudSearch',
-          workItem: '1. Worked on defect #3430 - [cq-admin-ui] Cascade rules: The "+" button does not work after triggered the Clear operation.',
-          nextWorkItem: '1. Work on defect fixing.'
-        },
-        {
-          engineer: 'Borg Fu',
-          workOn: 'CloudSearch',
-          workItem: '1. Worked on defect #3430 - [cq-admin-ui] Cascade rules: The "+" button does not work after triggered the Clear operation.',
-          nextWorkItem: '1. Work on defect fixing.'
-        },
-        {
-          engineer: 'Borg Fu',
-          workOn: 'CloudSearch',
-          workItem: '1. Worked on defect #3430 - [cq-admin-ui] Cascade rules: The "+" button does not work after triggered the Clear operation.',
-          nextWorkItem: '1. Work on defect fixing.'
-        },
-        {
-          engineer: 'Borg Fu',
-          workOn: 'CloudSearch',
-          workItem: '1. Worked on defect #3430 - [cq-admin-ui] Cascade rules: The "+" button does not work after triggered the Clear operation.',
-          nextWorkItem: '1. Work on defect fixing.'
-        }
-      ]
+      tableData: []
     }
+  },
+  created: function () {
+    this.refrashData()
   },
   methods: {
     tableRowStyle ({ row, rowIndex }) {
@@ -46,6 +26,13 @@ export default {
       if (rowIndex === 0) {
         return 'background-color: #1c2128;color: #fff;font-weight: 500;font-size: 14px;'
       }
+    },
+    refrashData () {
+      let url = 'http://localhost:10010/dailyStatus/year/2018/month/12/day/2'
+      let self = this
+      Req.sendGetRequest(url).then(function (data) {
+        self.tableData = data
+      })
     }
   }
 }
