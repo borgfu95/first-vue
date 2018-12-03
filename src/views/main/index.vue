@@ -45,7 +45,14 @@ export default {
       let url = Config.DR_SERVER.API + Config.DR_SERVER.ADD_DR
       let self = this
       Req.sendPostRequest(url, data).then(function () {
+        self.$message({
+          message: 'Saving DR success',
+          type: 'success'
+        })
         self.$refs.table.refrashData()
+      }).catch(function (error) {
+        console.log(error)
+        self.$message.error('Saving DR failed')
       })
     },
     onSent () {},

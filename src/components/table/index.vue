@@ -5,6 +5,10 @@
       el-table-column(prop="workOn", label="Feature Worked On", width="150")
       el-table-column(prop="workItem", label="Work Item")
       el-table-column(prop="nextWorkItem", label="Plan of Next Work Day")
+    el-button-group.button-group
+      el-button.pervious-button(type="primary", icon="el-icon-caret-left", @click="viewPerviousDR")
+      el-button.current-button(type="primary", icon="el-icon-location", @click="viewCurrentDR")
+      el-button.next-button(type="primary", icon="el-icon-caret-right", @click="viewNextDR")
 </template>
 <script>
 import Req from '@/utils/axios'
@@ -19,6 +23,12 @@ export default {
   created: function () {
     this.refrashData()
   },
+  props: {
+    dateOffset: {
+      type: Number,
+      default: 0
+    }
+  },
   methods: {
     tableRowStyle ({ row, rowIndex }) {
       return 'background-color: #1c2128;color: #fff;font-size: 12px;'
@@ -28,10 +38,32 @@ export default {
         return 'background-color: #1c2128;color: #fff;font-weight: 500;font-size: 14px;'
       }
     },
+    viewPerviousDR () {
+      if ((new Date().getDate() + this.dateOffset) > 1) {
+        this.dateOffset = this.dateOffset - 1
+      }
+      this.refrashData()
+    },
+    viewCurrentDR () {
+      this.dateOffset = 0
+      this.refrashData()
+    },
+    viewNextDR () {
+      if ((new Date().getDate() + this.dateOffset) < this.getDaysInCurrentMonth()) {
+        this.dateOffset = this.dateOffset + 1
+      }
+      this.refrashData()
+    },
+    getDaysInCurrentMonth () {
+      let date = new Date()
+      let tempDate = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+      return tempDate.getDate()
+    },
     refrashData () {
       let date = new Date()
+      let day = date.getDate() + this.dateOffset
       let url = Config.DR_SERVER.API + Config.DR_SERVER.GET_DR_BY_DATE.replace('{0}', date.getFullYear())
-        .replace('{1}', date.getMonth() + 1).replace('{2}', date.getDate())
+        .replace('{1}', date.getMonth() + 1).replace('{2}', day)
       let self = this
       Req.sendGetRequest(url).then(function (data) {
         self.tableData = data
@@ -43,6 +75,10 @@ export default {
 <style lang="scss">
 .header {
   width: 100%;
+}
+
+.button-group {
+  margin-top: 20px;
 }
 
 .el-table--enable-row-hover .el-table__body tr:hover>td {

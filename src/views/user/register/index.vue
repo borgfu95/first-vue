@@ -14,11 +14,17 @@ export default {
   },
   methods: {
     register (data) {
+      let self = this
       let url = Config.DR_SERVER.API + Config.DR_SERVER.REGISTER
       Req.sendPostRequest(url, data).then(function () {
+        self.$message({
+          message: 'Success in register',
+          type: 'success'
+        })
         router.push('/login')
       }).catch(function () {
         console.log('Register failed')
+        self.$message.error('Failed to register')
       })
     }
   }

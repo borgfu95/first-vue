@@ -14,12 +14,18 @@ export default {
   },
   methods: {
     login (data) {
+      let self = this
       let url = Config.DR_SERVER.API + Config.DR_SERVER.LOGIN
       Req.sendPostRequest(url, data).then(function (data) {
+        self.$message({
+          message: 'Success in login',
+          type: 'success'
+        })
         Config.userName = data.userName
         router.push('/main')
       }).catch(function () {
         console.log('Login failed')
+        self.$message.error('Failed to login')
       })
     }
   }
