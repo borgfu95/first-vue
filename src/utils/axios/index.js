@@ -6,14 +6,17 @@ function sendGetRequest (url) {
     return res.data
   }).catch(function (error) {
     console.log(error)
+    return Promise.reject(new Error('Failed to send get request'))
   })
 }
 
 function sendPostRequest (url, data) {
   return axios.post(url, data).then(function (res) {
     console.log(`Post request send success, response ${res}`)
+    return res.data
   }).catch(function (error) {
     console.log(error)
+    return Promise.reject(new Error('Failed to send post request'))
   })
 }
 

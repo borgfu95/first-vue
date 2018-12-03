@@ -8,6 +8,7 @@
 </template>
 <script>
 import Req from '@/utils/axios'
+import Config from '@/config'
 
 export default {
   data () {
@@ -28,7 +29,9 @@ export default {
       }
     },
     refrashData () {
-      let url = 'http://localhost:10010/dailyStatus/year/2018/month/12/day/2'
+      let date = new Date()
+      let url = Config.DR_SERVER.API + Config.DR_SERVER.GET_DR_BY_DATE.replace('{0}', date.getFullYear())
+        .replace('{1}', date.getMonth() + 1).replace('{2}', date.getDate())
       let self = this
       Req.sendGetRequest(url).then(function (data) {
         self.tableData = data

@@ -14,7 +14,7 @@
 import Table from '@/components/table'
 import Form from '@/components/form'
 import Req from '@/utils/axios'
-// import router from '@/router'
+import Config from '@/config'
 
 export default {
   data () {
@@ -32,18 +32,20 @@ export default {
   },
   methods: {
     onSave () {
+      let date = new Date()
       let data = {
-        engineer: 'Borg Fu',
+        engineer: Config.userName,
         workOn: this.workOn,
         workItem: this.workItem,
         nextWorkItem: this.nextWorkItem,
-        year: '2018',
-        month: '12',
-        day: '2'
+        year: date.getFullYear().toString(),
+        month: (date.getMonth() + 1).toString(),
+        day: (date.getDate()).toString()
       }
-      let url = 'http://localhost:10010/dailyStatus'
+      let url = Config.DR_SERVER.API + Config.DR_SERVER.ADD_DR
+      let self = this
       Req.sendPostRequest(url, data).then(function () {
-        this.$refs.table.refrashData()
+        self.$refs.table.refrashData()
       })
     },
     onSent () {},
