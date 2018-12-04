@@ -6,9 +6,8 @@
       el-table-column(prop="workItem", label="Work Item")
       el-table-column(prop="nextWorkItem", label="Plan of Next Work Day")
     el-button-group.button-group
-      el-button.pervious-button(type="primary", icon="el-icon-caret-left", @click="viewPerviousDR")
-      el-button.current-button(type="primary", icon="el-icon-location", @click="viewCurrentDR")
-      el-button.next-button(type="primary", icon="el-icon-caret-right", @click="viewNextDR")
+      el-button.pervious-button(type="primary", @click="viewPerviousDR") Pervious
+      el-button.current-button(type="primary", @click="viewCurrentDR") Today
 </template>
 <script>
 import Req from '@/utils/axios'
@@ -47,17 +46,6 @@ export default {
     viewCurrentDR () {
       this.dateOffset = 0
       this.refrashData()
-    },
-    viewNextDR () {
-      if ((new Date().getDate() + this.dateOffset) < this.getDaysInCurrentMonth()) {
-        this.dateOffset = this.dateOffset + 1
-      }
-      this.refrashData()
-    },
-    getDaysInCurrentMonth () {
-      let date = new Date()
-      let tempDate = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-      return tempDate.getDate()
     },
     refrashData () {
       let date = new Date()
