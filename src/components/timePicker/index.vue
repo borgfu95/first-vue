@@ -1,16 +1,7 @@
 <template lang="pug">
-  el-container
-    .title
-      el-row(class="title-label-row")
-        span(class="title-label") {{title}}
-      el-row
-        el-input(class="userName", v-model="userName", placeholder="Please Input User Name", @keyup.13.native="submit", clearable)
-      el-row
-        el-input(class="password", v-model="password", placeholder="Please Input Password", @keyup.13.native="submit", type="password", clearable)
-      el-row
-        el-button(type="primary", size="medium", @click="submit") {{buttonName}}
-      el-row
-        router-link.btn-register(to="/register", :style="{display: isDisplay}") register
+  .time-picker-container
+    el-date-picker.time-picker(v-model="selectedTime", type="date", placeholder="select date")
+  
 </template>
 <script>
 export default {

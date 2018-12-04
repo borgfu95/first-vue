@@ -54,6 +54,13 @@ export default {
         .replace('{1}', date.getMonth() + 1).replace('{2}', day)
       let self = this
       Req.sendGetRequest(url).then(function (data) {
+        // for (let item of data) {
+        //   for (let key in item) {
+        //     if (key) {
+        //       item[key] = item[key].toString().replace('\n', '<br/>')
+        //     }
+        //   }
+        // }
         self.tableData = data
       })
     }
@@ -83,5 +90,9 @@ export default {
 
 .el-table td, .el-table th.is-leaf {
   border-color: #6a6a6a;
+}
+
+.el-table .cell {
+  white-space: pre-line;
 }
 </style>

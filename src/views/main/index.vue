@@ -1,5 +1,8 @@
 <template lang="pug">
   el-container
+    el-header
+      Clock
+      el-button(type="danger", @click="logout") Logout
     el-main.main-table
       Table(ref="table")
     el-footer
@@ -11,10 +14,12 @@
           el-button(type="success", @click="onSent") Sent
 </template>
 <script>
+import Clock from '@/components/clock'
 import Table from '@/components/table'
 import Form from '@/components/form'
 import Req from '@/utils/axios'
 import Config from '@/config'
+import router from '@/router'
 
 export default {
   data () {
@@ -24,11 +29,17 @@ export default {
       nextWorkItem: ''
     }
   },
+  mounted: function () {
+    if (!Config.userName) {
+      router.push('/login')
+    }
+  },
   props: {
   },
   components: {
     Table,
-    Form
+    Form,
+    Clock
   },
   methods: {
     onSave () {
@@ -64,6 +75,10 @@ export default {
     },
     getNextWorkItem (data) {
       this.nextWorkItem = data
+    },
+    logout () {
+      Config.userName = null
+      router.push('/login')
     }
   }
 }
@@ -75,5 +90,9 @@ export default {
 
 .main-table {
   height: 450px;
+}
+
+.el-header .el-button {
+  float: right;
 }
 </style>
