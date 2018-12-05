@@ -22,9 +22,8 @@ export default {
           type: 'success'
         })
         router.push('/login')
-      }).catch(function () {
-        console.log('Register failed')
-        self.$message.error('Failed to register')
+      }).catch(function (error) {
+        self.$message.error(error.message)
       })
     }
   }

@@ -1,10 +1,11 @@
 <template lang="pug">
   el-container
     el-header
-      Clock
-      el-button(type="danger", @click="logout") Logout
+      el-date-picker(v-model="selectedDate", type="date", placeholder="select date", @change="dateChanged")
+      Dropdown.dropdown(:userName="currentUser" :list="dropdownList")
+      Clock.clear-float
     el-main.main-table
-      Table(ref="table")
+      Table(ref="table", @buttonClick="setDateSelecte")
     el-footer
       el-container
         el-main
@@ -14,6 +15,7 @@
           el-button(type="success", @click="onSent") Sent
 </template>
 <script>
+import Dropdown from '@/components/dropdown'
 import Clock from '@/components/clock'
 import Table from '@/components/table'
 import Form from '@/components/form'
@@ -26,7 +28,10 @@ export default {
     return {
       workOn: 'CloudSearch',
       workItem: '',
-      nextWorkItem: ''
+      nextWorkItem: '',
+      dropdownList: [{name: 'Logout', method: this.logout}],
+      currentUser: Config.userName,
+      selectedDate: ''
     }
   },
   mounted: function () {
@@ -39,7 +44,8 @@ export default {
   components: {
     Table,
     Form,
-    Clock
+    Clock,
+    Dropdown
   },
   methods: {
     onSave () {
@@ -79,6 +85,12 @@ export default {
     logout () {
       Config.userName = null
       router.push('/login')
+    },
+    dateChanged () {
+      this.$refs.table.refrashData(this.selectedDate)
+    },
+    setDateSelecte (date) {
+      this.selectedDate = date
     }
   }
 }
@@ -92,7 +104,11 @@ export default {
   height: 450px;
 }
 
-.el-header .el-button {
+.el-header .dropdown {
   float: right;
+}
+
+.el-header .el-date-editor {
+  float: left;
 }
 </style>

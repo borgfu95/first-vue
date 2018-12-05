@@ -1,6 +1,5 @@
 <template lang="pug">
   div.clock
-    h1 Borg
     p.date {{date}}
     p.time {{time}}
 
@@ -12,7 +11,7 @@ export default {
     return {
       date: '',
       time: '',
-      week: ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+      week: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     }
   },
   mounted: function () {
@@ -43,23 +42,16 @@ p {
 
 .clock {
   font-family: 'Share Tech Mono', monospace;
-  color: #ffffff;
-  text-align: center;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
   color: #daf6ff;
   text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
 }
 .clock .time {
   letter-spacing: 0.05em;
-  font-size: 80px;
+  font-size: 14px;
   padding: 5px 0;
 }
 .clock .date {
   letter-spacing: 0.1em;
-  font-size: 24px;
+  font-size: 14px;
 }
 </style>

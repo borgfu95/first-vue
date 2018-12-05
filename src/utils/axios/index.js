@@ -15,7 +15,9 @@ function sendPostRequest (url, data) {
     console.log(`Post request send success, response ${res}`)
     return res.data
   }).catch(function (error) {
-    console.log(error)
+    if (error.response.status === 400) {
+      return Promise.reject(error.response.data)
+    }
     return Promise.reject(new Error('Failed to send post request'))
   })
 }

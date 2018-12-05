@@ -38,7 +38,8 @@ export default {
       }
     },
     viewPerviousDR () {
-      if ((new Date().getDate() + this.dateOffset) > 1) {
+      let date = new Date()
+      if ((date.getDate() + this.dateOffset) > 1) {
         this.dateOffset = this.dateOffset - 1
       }
       this.refrashData()
@@ -47,20 +48,18 @@ export default {
       this.dateOffset = 0
       this.refrashData()
     },
-    refrashData () {
-      let date = new Date()
+    refrashData (date) {
+      if (!date) {
+        date = new Date()
+      } else {
+        this.dateOffset = 0
+      }
       let day = date.getDate() + this.dateOffset
+      this.$emit('buttonClick', new Date(date.getFullYear(), date.getMonth(), day))
       let url = Config.DR_SERVER.API + Config.DR_SERVER.GET_DR_BY_DATE.replace('{0}', date.getFullYear())
         .replace('{1}', date.getMonth() + 1).replace('{2}', day)
       let self = this
       Req.sendGetRequest(url).then(function (data) {
-        // for (let item of data) {
-        //   for (let key in item) {
-        //     if (key) {
-        //       item[key] = item[key].toString().replace('\n', '<br/>')
-        //     }
-        //   }
-        // }
         self.tableData = data
       })
     }

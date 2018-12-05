@@ -27,4 +27,8 @@ body, html {
   background-color: $backage_ground_color;
   text-align: center
 }
+
+.clear-float {
+  clear: both;
+}
 </style>
