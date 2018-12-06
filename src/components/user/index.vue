@@ -16,6 +16,7 @@
 export default {
   data () {
     return {
+      imgUrl: require('@/assets/images/services.jpg'),
       userName: '',
       password: ''
     }
