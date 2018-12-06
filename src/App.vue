@@ -14,6 +14,10 @@ export default {
 
 $backage_ground_color: #1c2128;
 
+.hidden {
+  display: none;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

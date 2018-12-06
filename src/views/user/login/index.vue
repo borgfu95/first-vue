@@ -1,5 +1,7 @@
 <template lang="pug">
   el-container
+    .team-name
+      img(:src="imgUrl")
     UserComponents(title="Login in", buttonName="Login in", @submitForm="login")
 </template>
 <script>
@@ -9,6 +11,11 @@ import Config from '@/config'
 import router from '@/router'
 
 export default {
+  data () {
+    return {
+      imgUrl: require('@/assets/images/services.jpg')
+    }
+  },
   components: {
     UserComponents
   },
@@ -32,4 +39,12 @@ export default {
 }
 </script>
 <style lang="scss">
+.el-container {
+  position: relative;
+}
+
+.el-container .team-name {
+  position: absolute;
+  left: 540px;
+}
 </style>

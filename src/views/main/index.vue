@@ -1,5 +1,7 @@
 <template lang="pug">
   el-container
+    .data-div(:class="hiddenClass")
+      Form.data-form(@onHiddenForm="hiddenForm")
     el-header
       el-date-picker(v-model="selectedDate", type="date", placeholder="select date", @change="dateChanged")
       Dropdown.dropdown(:userName="currentUser" :list="dropdownList")
@@ -7,19 +9,14 @@
     el-main.main-table
       Table(ref="table", @buttonClick="setDateSelecte")
     el-footer
-      el-container
-        el-main
-          Form.footer-form(@transferWorkOn="getWorkOn", @transferWorkItem="getWorkItem", @transferNextWorkItem="getNextWorkItem")
-        el-footer
-          el-button(type="primary", @click="onSave") Save
-          el-button(type="success", @click="onSent") Sent
+      el-button(type="primary", @click="onSave") Save
+      el-button(type="success", @click="onSent") Sent
 </template>
 <script>
 import Dropdown from '@/components/dropdown'
 import Clock from '@/components/clock'
 import Table from '@/components/table'
-import Form from '@/components/form'
-import Req from '@/utils/axios'
+import Form from '@/components/second-form'
 import Config from '@/config'
 import router from '@/router'
 
@@ -31,7 +28,8 @@ export default {
       nextWorkItem: '',
       dropdownList: [{name: 'Logout', method: this.logout}],
       currentUser: Config.userName,
-      selectedDate: ''
+      selectedDate: '',
+      hiddenClass: ''
     }
   },
   mounted: function () {
@@ -48,39 +46,9 @@ export default {
     Dropdown
   },
   methods: {
-    onSave () {
-      let date = new Date()
-      let data = {
-        engineer: Config.userName,
-        workOn: this.workOn,
-        workItem: this.workItem,
-        nextWorkItem: this.nextWorkItem,
-        year: date.getFullYear().toString(),
-        month: (date.getMonth() + 1).toString(),
-        day: (date.getDate()).toString()
-      }
-      let url = Config.DR_SERVER.API + Config.DR_SERVER.ADD_DR
-      let self = this
-      Req.sendPostRequest(url, data).then(function () {
-        self.$message({
-          message: 'Saving DR success',
-          type: 'success'
-        })
-        self.$refs.table.refrashData()
-      }).catch(function (error) {
-        console.log(error)
-        self.$message.error('Saving DR failed')
-      })
-    },
     onSent () {},
-    getWorkOn (data) {
-      this.workOn = data
-    },
-    getWorkItem (data) {
-      this.workItem = data
-    },
-    getNextWorkItem (data) {
-      this.nextWorkItem = data
+    hiddenForm () {
+      this.hiddenClass = 'hidden'
     },
     logout () {
       Config.userName = null
@@ -96,7 +64,27 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.footer-form {
+.el-container {
+  position: relative;
+}
+
+.el-container .data-div {
+  position: absolute;
+  border: 1px;
+  border-color: #525355;
+  border-style: solid;
+  width: 340px;
+  z-index: 100;
+  background-color: #1c2128;
+  left: 600px;
+  top: 125px;
+}
+
+.el-container .data-div .data-form {
+  margin-left: 20px;
+}
+
+.data-form {
   float: left;
 }
 
