@@ -7,8 +7,8 @@
         el-input(class="userName", v-model="userName", placeholder="Please Input User Name", @keyup.13.native="submit", clearable)
       el-row
         el-input(class="password", v-model="password", placeholder="Please Input Password", @keyup.13.native="submit", type="password", clearable)
-      el-row
-        el-button(type="primary", size="medium", @click="submit") {{buttonName}}
+      el-row.submit-button-row
+        el-button.submit-button(type="primary", size="medium", @click="submit") {{buttonName}}
       el-row
         router-link.btn-register(to="/register", :style="{display: isDisplay}") register
 </template>
@@ -98,7 +98,12 @@ $input_width: 100%;
 
 .title .btn-register {
   float: right;
-  color: white;
+  color: #409eff;
   font-size: 14px;
+}
+
+.title .submit-button-row .submit-button {
+  background-color: #1c2128;
+  color: #409eff;
 }
 </style>

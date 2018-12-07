@@ -1,5 +1,7 @@
 <template lang="pug">
   el-container
+    .team-name
+      img(:src="imgUrl")
     UserComponents(title="Register", buttonName="Register", @submitForm="register")
 </template>
 <script>
@@ -30,4 +32,12 @@ export default {
 }
 </script>
 <style lang="scss">
+.el-container {
+  position: relative;
+}
+
+.el-container .team-name {
+  position: absolute;
+  left: 425px;
+}
 </style>

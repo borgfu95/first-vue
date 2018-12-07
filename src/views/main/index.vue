@@ -1,7 +1,7 @@
 <template lang="pug">
   el-container
     .data-div(:class="hiddenClass")
-      Form.data-form(@onHiddenForm="hiddenForm")
+      Form.data-form(@onHiddenForm="hiddenForm", @refrashTable="refrashTable")
     el-header
       el-date-picker(v-model="selectedDate", type="date", placeholder="select date", @change="dateChanged")
       Dropdown.dropdown(:userName="currentUser" :list="dropdownList")
@@ -9,7 +9,6 @@
     el-main.main-table
       Table(ref="table", @buttonClick="setDateSelecte")
     el-footer
-      el-button(type="primary", @click="onSave") Save
       el-button(type="success", @click="onSent") Sent
 </template>
 <script>
@@ -19,6 +18,7 @@ import Table from '@/components/table'
 import Form from '@/components/second-form'
 import Config from '@/config'
 import router from '@/router'
+import Req from '@/utils/axios'
 
 export default {
   data () {
@@ -29,13 +29,27 @@ export default {
       dropdownList: [{name: 'Logout', method: this.logout}],
       currentUser: Config.userName,
       selectedDate: '',
-      hiddenClass: ''
+      isSavedDR: false
+    }
+  },
+  computed: {
+    hiddenClass: function () {
+      return this.isSavedDR ? 'hidden' : ''
     }
   },
   mounted: function () {
     if (!Config.userName) {
       router.push('/login')
     }
+    let self = this
+    let date = new Date()
+    let url = Config.DR_SERVER.API + Config.DR_SERVER.GET_DR_BY_DATE.replace('{0}', Config.userName)
+      .replace('{1}', date.getFullYear()).replace('{2}', date.getMonth() + 1).replace('{3}', date.getDate())
+    Req.sendGetRequest(url).then(function () {
+      self.isSavedDR = true
+    }).catch(function (error) {
+      console.log(error)
+    })
   },
   props: {
   },
@@ -46,7 +60,9 @@ export default {
     Dropdown
   },
   methods: {
-    onSent () {},
+    onSent () {
+      console.log('123')
+    },
     hiddenForm () {
       this.hiddenClass = 'hidden'
     },
@@ -56,6 +72,9 @@ export default {
     },
     dateChanged () {
       this.$refs.table.refrashData(this.selectedDate)
+    },
+    refrashTable () {
+      this.$refs.table.refrashData()
     },
     setDateSelecte (date) {
       this.selectedDate = date
@@ -76,7 +95,7 @@ export default {
   width: 340px;
   z-index: 100;
   background-color: #1c2128;
-  left: 600px;
+  left: 500px;
   top: 125px;
 }
 

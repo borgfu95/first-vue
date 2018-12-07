@@ -35,10 +35,10 @@ export default {
     onSave () {
       let date = new Date()
       let data = {
-        engineer: Config.userName,
-        workOn: this.formData.workOn,
-        workItem: this.formData.workItem,
-        nextWorkItem: this.formData.nextWorkItem,
+        engineer: Config.userName.trim(),
+        workOn: this.formData.workOn.trim(),
+        workItem: this.formData.workItem.trim(),
+        nextWorkItem: this.formData.nextWorkItem.trim(),
         year: date.getFullYear().toString(),
         month: (date.getMonth() + 1).toString(),
         day: (date.getDate()).toString()
@@ -50,7 +50,9 @@ export default {
           message: 'Saving DR success',
           type: 'success'
         })
-        self.$refs.table.refrashData()
+        self.$emit('refrashTable')
+        self.hiddenClass = 'hidden'
+        self.$emit('onHiddenForm')
       }).catch(function (error) {
         console.log(error)
         self.$message.error('Saving DR failed')
