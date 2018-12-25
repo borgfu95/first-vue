@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.container(:class="hiddenClass")
+  div.container
     el-form.form(:model="formData")
       el-form-item(label="Feature Worked On")
         el-input(v-model="formData.workOn")
@@ -8,7 +8,7 @@
       el-form-item(label="Plan of Next Work Day")
         el-input.textarea(v-model="formData.nextWorkItem", type="textarea", resize="none")
       el-form-item
-        el-button(type="primary", icon="el-icon-edit", @click="onSave") Save
+        el-button(type="primary", icon="el-icon-edit", @click="onSubmitForm") Save
         el-button(type="danger", icon="el-icon-delete", @click="onCancel") Cancel
 </template>
 <script>
@@ -22,44 +22,66 @@ export default {
         workOn: 'CloudSearch',
         workItem: '',
         nextWorkItem: ''
-      }
-    }
-  },
-  props: {
-    hiddenClass: {
-      type: String,
-      default: ''
+      },
+      formStatus: 'add'
     }
   },
   methods: {
-    onSave () {
+    onSubmitForm () {
       let date = new Date()
+      let workOn = this.formData.workOn.trim()
+      let workItem = this.formData.workItem.trim()
+      let nextWorkItem = this.formData.nextWorkItem.trim()
+      if (!workOn) {
+        this.$message.error('Feature worked on can not be empty')
+        return
+      }
+      if (!workItem) {
+        this.$message.error('Work item can not be empty')
+        return
+      }
+      if (!nextWorkItem) {
+        this.$message.error('Plan of next work day can not be empty')
+        return
+      }
       let data = {
-        engineer: Config.userName.trim(),
-        workOn: this.formData.workOn.trim(),
-        workItem: this.formData.workItem.trim(),
-        nextWorkItem: this.formData.nextWorkItem.trim(),
+        engineer: sessionStorage.userName.trim(),
+        workOn: workOn,
+        workItem: workItem,
+        nextWorkItem: nextWorkItem,
         year: date.getFullYear().toString(),
         month: (date.getMonth() + 1).toString(),
         day: (date.getDate()).toString()
       }
       let url = Config.DR_SERVER.API + Config.DR_SERVER.ADD_DR
       let self = this
-      Req.sendPostRequest(url, data).then(function () {
-        self.$message({
-          message: 'Saving DR success',
-          type: 'success'
+      if (this.formStatus === 'add') {
+        Req.sendPostRequest(url, data).then(function () {
+          self.$message({
+            message: 'Saving DR success',
+            type: 'success'
+          })
+          self.$emit('refrashTable')
+          self.$emit('onHiddenForm')
+        }).catch(function (error) {
+          console.log(error)
+          self.$message.error('Saving DR failed')
         })
-        self.$emit('refrashTable')
-        self.hiddenClass = 'hidden'
-        self.$emit('onHiddenForm')
-      }).catch(function (error) {
-        console.log(error)
-        self.$message.error('Saving DR failed')
-      })
+      } else {
+        Req.sendPutRequest(url, data).then(function () {
+          self.$message({
+            message: 'Update DR success',
+            type: 'success'
+          })
+          self.$emit('refrashTable')
+          self.$emit('onHiddenForm')
+        }).catch(function (error) {
+          console.log(error)
+          self.$message.error('Update DR failed')
+        })
+      }
     },
     onCancel () {
-      this.hiddenClass = 'hidden'
       this.$emit('onHiddenForm')
     }
   }

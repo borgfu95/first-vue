@@ -38,6 +38,6 @@ export default {
 
 .el-container .team-name {
   position: absolute;
-  left: 425px;
+  left: 34%;
 }
 </style>

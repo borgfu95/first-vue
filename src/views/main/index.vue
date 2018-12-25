@@ -1,13 +1,13 @@
 <template lang="pug">
   el-container
     .data-div(:class="hiddenClass")
-      Form.data-form(@onHiddenForm="hiddenForm", @refrashTable="refrashTable")
+      Form.data-form(ref="editForm", @onHiddenForm="hiddenForm", @refrashTable="refrashTable")
     el-header
       el-date-picker(v-model="selectedDate", type="date", placeholder="select date", @change="dateChanged")
       Dropdown.dropdown(:userName="currentUser" :list="dropdownList")
       Clock.clear-float
     el-main.main-table
-      Table(ref="table", @buttonClick="setDateSelecte")
+      Table(ref="table", @buttonClick="setDateSelecte", @editDaliyStatus="editDaliyStatus")
     el-footer
       el-button(type="success", @click="onSent") Sent
 </template>
@@ -27,26 +27,29 @@ export default {
       workItem: '',
       nextWorkItem: '',
       dropdownList: [{name: 'Logout', method: this.logout}],
-      currentUser: Config.userName,
+      currentUser: sessionStorage.userName,
       selectedDate: '',
-      isSavedDR: false
+      isNeedHiddenForm: false
     }
   },
   computed: {
-    hiddenClass: function () {
-      return this.isSavedDR ? 'hidden' : ''
+    hiddenClass: {
+      get () {
+        return this.isNeedHiddenForm ? 'hidden' : ''
+      }
     }
   },
   mounted: function () {
-    if (!Config.userName) {
+    if (!sessionStorage.userName) {
       router.push('/login')
     }
     let self = this
     let date = new Date()
-    let url = Config.DR_SERVER.API + Config.DR_SERVER.GET_DR_BY_DATE.replace('{0}', Config.userName)
+    let url = Config.DR_SERVER.API + Config.DR_SERVER.GET_USER_DR.replace('{0}', sessionStorage.userName)
       .replace('{1}', date.getFullYear()).replace('{2}', date.getMonth() + 1).replace('{3}', date.getDate())
     Req.sendGetRequest(url).then(function () {
-      self.isSavedDR = true
+      self.isNeedHiddenForm = true
+      self.$refs.editForm.formStatus = 'add'
     }).catch(function (error) {
       console.log(error)
     })
@@ -61,13 +64,35 @@ export default {
   },
   methods: {
     onSent () {
-      console.log('123')
+      let self = this
+      let mailData = Config.MAIL_HEADER + Config.MAIL_TABLE_HEADER
+      for (let item of this.$refs.table.tableData) {
+        let p = Config.MAIL_P.replace('{{0}}', item.engineer.toString().replace(/\n/g, '<br />'))
+        mailData += ('<TR>' + Config.MAIL_TD.replace('{{0}}', p))
+        p = Config.MAIL_P.replace('{{0}}', item.workOn.toString().replace(/\n/g, '<br />'))
+        mailData += Config.MAIL_TD.replace('{{0}}', p)
+        p = Config.MAIL_P.replace('{{0}}', item.workItem.toString().replace(/\n/g, '<br />'))
+        mailData += Config.MAIL_TD.replace('{{0}}', p)
+        p = Config.MAIL_P.replace('{{0}}', item.nextWorkItem.toString().replace(/\n/g, '<br />'))
+        mailData += (Config.MAIL_TD.replace('{{0}}', p) + '</TR>')
+      }
+      mailData += ('<TABLE>' + Config.MAIL_END)
+      let postData = {content: mailData}
+      let url = Config.DR_SERVER.API + Config.DR_SERVER.SEND_MAIL
+      Req.sendPostRequest(url, postData).then(function (result) {
+        self.$message({
+          message: result.message,
+          type: 'success'
+        })
+      }).catch(function (error) {
+        self.$message.error(error.message)
+      })
     },
     hiddenForm () {
-      this.hiddenClass = 'hidden'
+      this.isNeedHiddenForm = true
     },
     logout () {
-      Config.userName = null
+      sessionStorage.userName = null
       router.push('/login')
     },
     dateChanged () {
@@ -78,6 +103,13 @@ export default {
     },
     setDateSelecte (date) {
       this.selectedDate = date
+    },
+    editDaliyStatus (row) {
+      this.isNeedHiddenForm = false
+      this.$refs.editForm.formData.workOn = row.workOn
+      this.$refs.editForm.formData.workItem = row.workItem
+      this.$refs.editForm.formData.nextWorkItem = row.nextWorkItem
+      this.$refs.editForm.formStatus = 'edit'
     }
   }
 }
@@ -108,7 +140,7 @@ export default {
 }
 
 .main-table {
-  height: 450px;
+  height: 500px;
 }
 
 .el-header .dropdown {

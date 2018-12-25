@@ -28,7 +28,7 @@ export default {
           message: 'Success in login',
           type: 'success'
         })
-        Config.userName = data.userName
+        sessionStorage.userName = data.userName
         router.push('/main')
       }).catch(function () {
         console.log('Login failed')
@@ -45,6 +45,6 @@ export default {
 
 .el-container .team-name {
   position: absolute;
-  left: 425px;
+  left: 34%;
 }
 </style>

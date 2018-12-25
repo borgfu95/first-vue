@@ -22,7 +22,18 @@ function sendPostRequest (url, data) {
   })
 }
 
+function sendPutRequest (url, data) {
+  return axios.put(url, data).then(function (res) {
+    console.log(`Put request send success, response ${res}`)
+    return res.data
+  }).catch(function (error) {
+    console.log(error)
+    return Promise.reject(new Error('Failed to send post request'))
+  })
+}
+
 export default {
   sendGetRequest: sendGetRequest,
-  sendPostRequest: sendPostRequest
+  sendPostRequest: sendPostRequest,
+  sendPutRequest: sendPutRequest
 }
