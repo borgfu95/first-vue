@@ -3,7 +3,7 @@
     .data-div(:class="hiddenClass")
       Form.data-form(ref="editForm", @onHiddenForm="hiddenForm", @refrashTable="refrashTable")
     el-header
-      el-date-picker(v-model="selectedDate", type="date", placeholder="select date", @change="dateChanged")
+      el-date-picker(v-model="selectedDate", type="date", placeholder="select date", @change="dateChanged", :picker-options="pickerOptions")
       Dropdown.dropdown(:userName="currentUser" :list="dropdownList")
       Clock.clear-float
     el-main.main-table
@@ -29,7 +29,12 @@ export default {
       dropdownList: [{name: 'Logout', method: this.logout}],
       currentUser: sessionStorage.userName,
       selectedDate: '',
-      isNeedHiddenForm: false
+      isNeedHiddenForm: false,
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now()
+        }
+      }
     }
   },
   computed: {

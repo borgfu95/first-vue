@@ -91,5 +91,6 @@ export default {
 .container .form .el-form-item .textarea /deep/ textarea {
   width: 300px;
   height: 80px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>

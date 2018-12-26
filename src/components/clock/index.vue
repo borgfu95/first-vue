@@ -41,7 +41,6 @@ p {
 }
 
 .clock {
-  font-family: 'Share Tech Mono', monospace;
   color: #daf6ff;
   text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
 }
