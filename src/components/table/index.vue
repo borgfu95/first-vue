@@ -7,7 +7,7 @@
       el-table-column(prop="nextWorkItem", label="Plan of Next Work Day")
       el-table-column(label="Edit", width="50")
         template(slot-scope="scope")
-          el-button(type="text", icon="el-icon-edit", @click="editDaliyStatus(scope.row)")
+          el-button(type="text", icon="el-icon-edit", @click="editDaliyStatus(scope.row)", :disabled="disabledEditButton(scope.row.engineer)")
     el-button-group.button-group
       el-button.pervious-button(type="primary", @click="viewPerviousDR") Pervious
       el-button.current-button(type="primary", @click="viewCurrentDR") Today
@@ -35,6 +35,9 @@ export default {
       if (rowIndex === 0) {
         return 'background-color: #1c2128;color: #fff;font-weight: 500;font-size: 14px;'
       }
+    },
+    disabledEditButton (engineer) {
+      return engineer !== sessionStorage.userName
     },
     viewPerviousDR () {
       let date = new Date()

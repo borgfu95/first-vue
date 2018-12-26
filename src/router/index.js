@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/views/user/login'
-import Main from '@/views/main'
+import DailyReport from '@/views/dailyReport'
 import Register from '@/views/user/register'
 
 Vue.use(Router)
@@ -23,9 +23,9 @@ export default new Router({
       component: Register
     },
     {
-      path: '/main',
-      name: 'main',
-      component: Main
+      path: '/dailyReport',
+      name: 'dailyReport',
+      component: DailyReport
     }
   ]
 })

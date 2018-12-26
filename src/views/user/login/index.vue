@@ -9,11 +9,15 @@ import UserComponents from '@/components/user'
 import Req from '@/utils/axios'
 import Config from '@/config'
 import router from '@/router'
-
 export default {
   data () {
     return {
       imgUrl: require('@/assets/images/services.jpg')
+    }
+  },
+  mounted: function () {
+    if (sessionStorage.userName && sessionStorage.userName !== 'null') {
+      router.push('/dailyReport')
     }
   },
   components: {
@@ -29,7 +33,7 @@ export default {
           type: 'success'
         })
         sessionStorage.userName = data.userName
-        router.push('/main')
+        router.push('/dailyReport')
       }).catch(function () {
         console.log('Login failed')
         self.$message.error('Failed to login')
