@@ -1,7 +1,7 @@
 <template lang="pug">
   div.dropdown
     el-dropdown(@command="handleCommand")
-      span.el-dropdown-link  Hi {{ userName }}
+      span.el-dropdown-link  Hi {{ userName }}，
         i(class="el-icon-arrow-down el-icon--right")
       el-dropdown-menu(slot="dropdown")
         el-dropdown-item(v-for="(item, index) in list", :key="item.name", :command="index") {{ item.name }}
@@ -31,5 +31,8 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+.dropdown .el-dropdown .el-dropdown-link {
+  color: #fff;
+}
 </style>

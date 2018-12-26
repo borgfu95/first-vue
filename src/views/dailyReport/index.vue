@@ -32,7 +32,8 @@ export default {
       isNeedHiddenForm: false,
       pickerOptions: {
         disabledDate (time) {
-          return time.getTime() > Date.now()
+          let date = new Date(time)
+          return time.getTime() > Date.now() || date.getDay() === 0 || date.getDay() === 6
         }
       }
     }
